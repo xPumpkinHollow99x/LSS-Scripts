@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Personal Zuweisen
 // @namespace    PumpkinHollow
-// @version      0.9
+// @version      1.0
 // @description  Weist von der Gebäude-Seite aus Personal allen Fahrzeugen zu
 // @match        https://www.leitstellenspiel.de/buildings/*
 // @match        https://polizei.leitstellenspiel.de/buildings/*
