@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Rueckalarmieren-Button oben
 // @namespace    PumpkinHollow
-// @version      4.0
+// @version      4.2
 // @description  Platziert einen modernen Rückalarmieren-Button oben beim Einsatznamen
 // @match        https://www.leitstellenspiel.de/missions/*
 // @match        https://polizei.leitstellenspiel.de/missions/*
@@ -14,16 +14,28 @@
 (function() {
     'use strict';
 
+    // =========================
+    // 🔧 USER CONFIG
+    // =========================
+    const BUTTON_LABEL = "Rückalarmieren"; // <-- HIER Namen ändern
+
     function createStyledButton(originalBtn) {
         const btn = originalBtn.cloneNode(true);
 
-        btn.style.background = "#d9534f"; // Modernes Rot
+        // Text überschreiben
+        btn.textContent = BUTTON_LABEL;
+
+        // Styling
+        btn.style.background = "#d9534f";
         btn.style.border = "none";
         btn.style.color = "white";
         btn.style.padding = "8px 14px";
         btn.style.borderRadius = "6px";
+
         btn.style.fontSize = "14px";
-        btn.style.fontWeight = "600";
+        btn.style.fontWeight = "700";
+        btn.style.lineHeight = "1.42857143";
+
         btn.style.marginRight = "8px";
         btn.style.cursor = "pointer";
         btn.style.boxShadow = "0 2px 6px rgba(0,0,0,0.15)";
@@ -38,7 +50,6 @@
     function moveButton() {
         const allButtons = [...document.querySelectorAll("a.btn, button.btn")];
 
-        // Feuerwehr + Polizei Rückalarm-Button (egal welcher existiert)
         const btn = allButtons.find(el =>
             el.textContent.includes("rückalarmieren")
         );
@@ -60,7 +71,7 @@
         const newBtn = createStyledButton(btn);
         container.appendChild(newBtn);
 
-        console.log("[LSS Script] EIN moderner Rückalarmieren-Button oben platziert.");
+        console.log("[LSS Script] Rückalarmieren-Button oben platziert.");
     }
 
     const interval = setInterval(() => {
