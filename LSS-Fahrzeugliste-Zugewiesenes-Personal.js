@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Fahrzeugliste: Zugewiesenes Personal
 // @namespace    PumpkinHollow
-// @version      1.1
+// @version      1.2
 // @description  Zeigt in der Fahrzeugliste einer Wache zugewiesenes Personal als "zugewiesen / max" an.
 // @match        https://www.leitstellenspiel.de/buildings/*
 // @match        https://polizei.leitstellenspiel.de/buildings/*
