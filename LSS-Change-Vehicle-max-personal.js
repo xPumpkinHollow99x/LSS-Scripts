@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Change Vehicle max personal
+// @name         LSS Change Vehicle max personal
 // @namespace    PumpkinHollow
 // @version      1.1
 // @description  Ändert die Personenanzahl
