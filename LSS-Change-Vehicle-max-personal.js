@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Change Vehicle max personal
 // @namespace    PumpkinHollow
-// @version      1.0
+// @version      1.1
 // @description  Ändert die Personenanzahl
 // @include      https://www.leitstellenspiel.de/buildings/*
 // @include      https://polizei.leitstellenspiel.de/buildings/*
-// @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/Change-Vehicle-max-personal.js
-// @downloadURL  https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/Change-Vehicle-max-personal.js
+// @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Change-Vehicle-max-personal.js
+// @downloadURL  https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Change-Vehicle-max-personal.js
 // @icon         https://github.com/xPumpkinHollow99x/Bilder/raw/main/pumpkinhollow.png
 // @grant        none
 // ==/UserScript==
