@@ -8,7 +8,7 @@
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Ausbauübersicht-im-Gebäude.js
 // @downloadURL  https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Ausbauübersicht-im-Gebäude.js
-// icon          https://github.com/xPumpkinHollow99x/Bilder/blob/main/pumpkin_hollow_lane_centered.png
+// @icon          https://github.com/xPumpkinHollow99x/Bilder/blob/main/pumpkin_hollow_lane_centered.png
 // ==/UserScript==
 
 (function () {
