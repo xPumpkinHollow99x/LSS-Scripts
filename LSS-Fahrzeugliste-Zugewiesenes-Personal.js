@@ -193,26 +193,28 @@
     function parsePersonnelPage(html, fallbackMax) {
         const doc = new DOMParser().parseFromString(html, 'text/html');
 
-        const counterElement = doc.getElementById('count_personal');
-
-        if (!counterElement) {
-            throw new Error('count_personal nicht gefunden');
-        }
-
-        const assigned = getNumericText(counterElement.textContent) ?? 0;
+        const assigned = doc.querySelectorAll('.btn-assigned').length;
 
         let max = fallbackMax;
 
-        const navbarText = counterElement.closest('.navbar-text');
+        const counterElement = doc.getElementById('count_personal');
 
-        if (navbarText) {
-            const labels = navbarText.querySelectorAll('.label');
+        if (counterElement) {
+            const navbarText = counterElement.closest('.navbar-text');
 
-            // Erstes Label = Max. Personenzahl
-            if (labels.length > 0) {
-                max = getNumericText(labels[0].textContent) ?? fallbackMax;
+            if (navbarText) {
+                const labels = navbarText.querySelectorAll('.label');
+
+                if (labels.length > 0) {
+                    max = getNumericText(labels[0].textContent) ?? fallbackMax;
+                }
             }
         }
+
+        console.log('LSS Personal', {
+            assigned,
+            max
+        });
 
         return {
             assigned,
