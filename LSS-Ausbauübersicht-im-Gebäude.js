@@ -8,6 +8,7 @@
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Ausbauübersicht-im-Gebäude.js
 // @downloadURL  https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Ausbauübersicht-im-Gebäude.js
+// @icon         https://github.com/xPumpkinHollow99x/Bilder/raw/main/pumpkinhollow.png
 // ==/UserScript==
 
 (function () {
