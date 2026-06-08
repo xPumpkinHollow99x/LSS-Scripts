@@ -1,9 +1,8 @@
 // ==UserScript==
 // @name          LSS Extension-Activator
 // @namespace    PumpkinHollow
-// @version       8.5.1
+// @version       8.6
 // @description   Aktiviert Erweiterungen + erzwingt Einsatzbereitschaft (5s Countdown)
-// @author        Gemini
 // @match         https://www.leitstellenspiel.de/buildings/*
 // @match         https://polizei.leitstellenspiel.de/buildings/*
 // @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Extension-Activator.js
@@ -80,7 +79,10 @@
             "background-color": "#5cb85c",
             "opacity": "1",
             "cursor": "pointer",
-            "border": "2px solid white"
+            "border": "2px solid white",
+            "font-weight": "700",
+            "line-height": "1.42857143",
+            "font-size": "14px"
         });
         isLocked = false;
     }
@@ -105,10 +107,20 @@
         if (target.length > 0 && !$('#multi-activate-btn').length) {
             // Text auf 10s angepasst
             const newBtn = $(`
-                <a id="multi-activate-btn" class="btn btn-success" style="margin-right: 10px; cursor: wait; font-weight: bold; background-color: gray; opacity: 0.6;">
-                   <i class="glyphicon glyphicon-flash"></i> Warten... (10s)
-                </a>
-            `);
+                <a id="multi-activate-btn"
+                class="btn btn-success"
+                style="
+                margin-right:10px;
+                cursor:wait;
+                background-color:gray;
+                opacity:0.6;
+                font-weight:700;
+                line-height:1.42857143;
+                font-size:14px;
+            ">
+            <i class="glyphicon glyphicon-flash"></i> Warten... (10s)
+         </a>
+     `);
 
             newBtn.on('click', function(e) {
                 e.preventDefault();
