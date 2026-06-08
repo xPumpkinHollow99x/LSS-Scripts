@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Fahrzeugliste: Zugewiesenes Personal
 // @namespace    PumpkinHollow
-// @version      1.2
+// @version      1.3
 // @description  Zeigt in der Fahrzeugliste einer Wache zugewiesenes Personal als "zugewiesen / max" an.
 // @match        https://www.leitstellenspiel.de/buildings/*
 // @match        https://polizei.leitstellenspiel.de/buildings/*
@@ -20,7 +20,6 @@
 
     const SCRIPT_PREFIX = '[LSS zugewiesenes Personal]';
     const CACHE_TTL_MS = 5 * 60 * 1000;
-    const MAX_PARALLEL_REQUESTS = 4;
 
     let cache = {};
     let runToken = 0;
@@ -241,24 +240,23 @@
     }
 
     async function runQueue(items, token) {
-        let index = 0;
+        for (const item of items) {
+            if (token !== runToken) return;
 
-        async function worker() {
-            while (index < items.length && token === runToken) {
-                const item = items[index++];
-                try {
-                    const data = await fetchPersonnel(item.vehicleId, item.fallbackMax);
-                    if (token !== runToken) return;
-                    setPersonnelValue(item.cell, data);
-                } catch (error) {
-                    console.warn(`${SCRIPT_PREFIX} Fehler bei Fahrzeug ${item.vehicleId}:`, error);
-                    if (token !== runToken) return;
-                    setError(item.cell);
-                }
+            try {
+                const data = await fetchPersonnel(item.vehicleId, item.fallbackMax);
+
+                if (token !== runToken) return;
+
+                setPersonnelValue(item.cell, data);
+            } catch (error) {
+                console.warn(`${SCRIPT_PREFIX} Fehler bei Fahrzeug ${item.vehicleId}:`, error);
+
+                if (token !== runToken) return;
+
+                setError(item.cell);
             }
         }
-
-        await Promise.all(Array.from({ length: Math.min(MAX_PARALLEL_REQUESTS, items.length) }, worker));
     }
 
     function collectRows(table, maxColumnIndex) {
