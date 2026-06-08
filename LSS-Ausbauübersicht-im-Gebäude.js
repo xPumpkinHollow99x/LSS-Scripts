@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         LSS Ausbauübersicht im Gebäude
-// @namespace    https://pumpkinhollow.dev/
-// @version      4.3
+// @namespace    PumpkinHollow
+// @version      4.4
 // @description  Ausbauten werden wie im LSSM v4 abgebildet
 // @match        https://www.leitstellenspiel.de/buildings/*
 // @match        https://polizei.leitstellenspiel.de/buildings/*
 // @grant        none
-// @updateURL
-// @downloadURL
+// @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Ausbauübersicht-im-Gebäude.js
+// @downloadURL  https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Ausbauübersicht-im-Gebäude.js
 // ==/UserScript==
 
 (function () {
