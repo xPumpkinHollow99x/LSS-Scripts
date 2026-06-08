@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Missions einklappen (⇅ Toggle)
 // @namespace    PumpkinHollow
-// @version      1.5
+// @version      1.6
 // @description  Missionsliste einklappen inkl. neuer Einsätze + UI Button im Filterbereich
 // @match        https://www.leitstellenspiel.de/*
 // @match        https://polizei.leitstellenspiel.de/*
@@ -27,7 +27,10 @@
     function applyToMission(panel, state) {
         if (!panel) return;
 
-        const body = panel.querySelector('.panel-body') || panel;
+        if (!panel.id?.startsWith('mission_panel_')) return;
+
+        const body = panel.querySelector('.panel-body');
+        if (!body) return;
 
         if (state) {
             body.style.display = 'none';
@@ -51,13 +54,13 @@
                 m.addedNodes.forEach(node => {
                     if (!(node instanceof HTMLElement)) return;
 
-                    if (node.matches?.('.panel')) {
+                    if (node.id?.startsWith('mission_panel_')) {
                         applyToMission(node, state);
                     }
 
-                    node.querySelectorAll?.('.panel')?.forEach(p => {
-                        applyToMission(p, state);
-                    });
+                    node.querySelectorAll?.('[id^="mission_panel_"]')
+                        ?.forEach(p => applyToMission(p, state));
+                    
                 });
             });
         });
