@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Missions einklappen (⇅ Toggle)
 // @namespace    PumpkinHollow
-// @version      2.0
+// @version      2.1
 // @description  Missionsliste einklappen inkl. neuer Einsätze + UI Button im Filterbereich
 // @match        https://www.leitstellenspiel.de/*
 // @match        https://polizei.leitstellenspiel.de/*
@@ -110,32 +110,44 @@
 }
 
     function applyAll(state) {
-        document.querySelectorAll('div[id^="mission_panel_heading_"]').forEach(h => {
-            const panel = h.closest('.panel');
-            if (panel) applyToMission(panel, state);
-        });
+        document
+            .querySelectorAll('[id^="mission_panel_"]')
+            .forEach(panel => applyToMission(panel, state));
     }
 
     function observeNewMissions(state) {
-        const observer = new MutationObserver(mutations => {
-            mutations.forEach(m => {
-                m.addedNodes.forEach(node => {
-                    if (!(node instanceof HTMLElement)) return;
 
+        const missionList =
+              document.querySelector('#mission_list') ||
+              document.querySelector('#mission_list_outer') ||
+              document.body;
+
+        const observer = new MutationObserver(mutations => {
+
+            for (const mutation of mutations) {
+
+                for (const node of mutation.addedNodes) {
+
+                    if (!(node instanceof HTMLElement)) continue;
+
+                    // Neuer Einsatz direkt eingefügt
                     if (node.id?.startsWith('mission_panel_')) {
                         applyToMission(node, state);
+                        continue;
                     }
 
-                    node.querySelectorAll?.('[id^="mission_panel_"]')
-                        ?.forEach(p => applyToMission(p, state));
+                    // Manchmal kommt der Einsatz in einem Wrapper
+                    const panel = node.querySelector?.('[id^="mission_panel_"]');
 
-                });
-            });
+                    if (panel) {
+                        applyToMission(panel, state);
+                    }
+                }
+            }
         });
 
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
+        observer.observe(missionList, {
+            childList: true
         });
     }
 
