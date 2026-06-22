@@ -65,6 +65,30 @@
         },
         {
             buildingID: 0,
+            displayName: "Normale FW ohne Ausbauten",
+            vehicles:[
+                [0,2], // LF 20
+                [2,1], // DLK 23/12
+                [3,1], // ELW 1
+                [4,1], // RW
+                [5,1], // GW-A
+                [10,1], // GW-Öl
+                [12,1], // GW-Mess
+                [14,1], // SW 2000
+                [27,1], // GW-G
+                [30,2], // HLF 20
+                [33,1], // GW-Höhe
+                [34,1], // ELW 2
+                [36,1], // MTW
+                [53,1], // Dekon-P
+                [57,1], // FwK
+                [87,1], // TLF 4000
+                [114,1], // GW-Lüfter
+                [167,1], // SLF
+            ]
+        },
+        {
+            buildingID: 0,
             displayName: "Große FW",
             vehicles:[
                 [0,4], // LF 20
