@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Personal Zuweisen
 // @namespace    PumpkinHollow
-// @version      1.0
+// @version      2.0
 // @description  Weist von der Gebäude-Seite aus Personal allen Fahrzeugen zu
 // @match        https://www.leitstellenspiel.de/buildings/*
 // @match        https://polizei.leitstellenspiel.de/buildings/*
@@ -16,12 +16,12 @@
 
     const settings = {
         autoStart: false,
-        vehicleDelayMs: 120,
-        clickDelayMs: 80,
-        rowClickDelayMs: 10,
+        vehicleDelayMs: 10,
+        clickDelayMs: 0,
+        rowClickDelayMs: 0,
         iframeTimeoutMs: 12000,
         reloadAfterFinish: true,
-        reloadDelayMs: 800,
+        reloadDelayMs: 300,
     };
 
     const list = [
@@ -61,7 +61,7 @@
 
         ["32","",1],["95","Motorradstaffel",1],["98","Kriminalpolizist",2],["103","Dienstgruppenleitung",2],
         ["156","Polizeihubschrauber",1],["79","SEK",4],["80","SEK",9],["81","MEK",4],["82","MEK",9],
-        ["94","Hundeführer",2],["137","Reiterstaffel",6],
+        ["94","Hundeführer",2],["137","Reiterstaffel",6],["184","Autobahnpolizei",2],
 
         ["28","",1],["29","Notarzt",1],["55","LNA",1],["56","Org",1],["73","",1],["74","Notarzt",1],
         ["157","Notarzt",1],["58","",1],["59","Einsatzleitung",2],["60","GW-San",6],
@@ -197,8 +197,8 @@
 
         try {
             const doc = iframe.contentDocument;
-            await waitFor(() => $('#personal_table tbody', doc));
-            await sleep(250);
+            await waitFor(() => $('#personal_table tbody', doc), 3000);
+            await sleep(200);
 
             const rows = $$('#personal_table tbody tr', doc);
             const curSelected = new Array(personGoal.length).fill(0);
@@ -226,14 +226,11 @@
                     } else {
                         assignedBtn.click();
                         removed++;
-                        await sleep(settings.rowClickDelayMs);
                     }
                 }
             }
 
-            await sleep(settings.clickDelayMs);
-
-            for (const row of rows) {
+            for (const row of $$('#personal_table tbody tr', doc)) {
                 const goalIdx = getGoalIndex(row);
                 const alreadyAssigned = $('.btn-assigned', row);
                 const assignBtn = $('.btn-success', row);
@@ -251,22 +248,21 @@
                     !alreadyAssigned &&
                     !isBusy
                 ) {
-                    assignBtn.click();
-
                     try {
-                        await waitFor(() => $('.btn-assigned', row), 1500);
+                        assignBtn.click();
+
+                        await waitFor(
+                            () => row.querySelector('.btn-assigned'),
+                            1000
+                        );
 
                         curSelected[goalIdx]++;
                         added++;
                     } catch {
                         addLog(`Klick nicht übernommen bei ${vehicleName}`, 'warn');
                     }
-
-                    await sleep(settings.rowClickDelayMs);
                 }
             }
-
-            await sleep(settings.clickDelayMs);
 
             const missing = personGoal
                 .map((goal, index) => ({
@@ -346,7 +342,7 @@
             }
 
             setProgress(i + 1, vehicleIds.length);
-            await sleep(settings.vehicleDelayMs);
+            await sleep(5);
         }
 
         setStatus(
@@ -356,7 +352,7 @@
 
         button.disabled = false;
         button.classList.remove('disabled');
-        button.textContent = 'Personal für alle Fahrzeuge zuweisen';
+        button.textContent = 'Zuweisen';
 
         if (settings.reloadAfterFinish) {
             addLog(`Seite wird in ${Math.round(settings.reloadDelayMs / 1000)} Sek. neu geladen...`, 'info');
@@ -369,18 +365,47 @@
 
         const container = document.createElement('div');
         container.id = 'turbo-building-ui';
-        container.style.cssText = 'background:#333;padding:10px;border-radius:5px;margin:10px 0;border:1px solid #444;';
+        container.style.cssText = `
+            background:#333;
+            padding:6px;
+            border-radius:4px;
+            margin:5px 0;
+            border:1px solid #444;
+            font-size:14px; !important;
+            font-weight:700; !important;
+            line-height:1.42857143; !important;
+         `;
 
         container.innerHTML = `
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                <button id="btnAssignBuildingTurbo" class="btn btn-success">Personal für alle Fahrzeuge zuweisen</button>
-                <button id="btnAssignBuildingRefresh" class="btn btn-default">Fahrzeuge neu suchen</button>
-                <span id="turbo-building-status" style="margin-left:8px;color:#fff;font-weight:bold;">Bereit</span>
+            <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+                <button id="btnAssignBuildingTurbo" class="btn btn-success">Zuweisen</button>
+                <span id="turbo-building-status"
+                      style="margin-left:8px;color:#fff;
+                             font-size:14px;
+                             font-weight:700;
+                             line-height:1.42857143;">
+                    Bereit
+                </span>
             </div>
-            <div style="margin-top:8px;height:18px;background:#222;border-radius:4px;overflow:hidden;">
-                <div id="turbo-building-bar" style="height:100%;width:0%;background:#5cb85c;color:#fff;text-align:center;font-size:12px;line-height:18px;">0%</div>
+            <div style="margin-top:4px;height:14px;background:#222;border-radius:3px;overflow:hidden;">
+                <div id="turbo-building-bar"
+                     style="height:100%;width:0%;background:#5cb85c;color:#fff;text-align:center;font-size:10px;line-height:14px;">
+                     0%
+                 </div>
+             </div>
             </div>
-            <div id="turbo-building-log" style="margin-top:8px;max-height:220px;overflow:auto;background:#222;color:#eee;padding:6px;font-size:12px;font-family:monospace;"></div>
+            <div id="turbo-building-log"
+                 style="margin-top:8px;
+                        max-height:220px;
+                        overflow:auto;
+                        background:#222;
+                        color:#eee;
+                        padding:6px;
+                        font-size:14px;
+                        font-weight:700;
+                        line-height:1.42857143;
+                        font-family:Arial,sans-serif;">
+            </div>
         `;
 
         const target = document.querySelector('h1') || document.body.firstElementChild || document.body;
@@ -389,12 +414,6 @@
         $('#btnAssignBuildingTurbo').addEventListener('click', event => {
             event.preventDefault();
             runBuildingAssignment();
-        });
-
-        $('#btnAssignBuildingRefresh').addEventListener('click', event => {
-            event.preventDefault();
-            const count = getVehicleIdsFromPage().length;
-            setStatus(`${count} Fahrzeuge auf der Seite gefunden.`);
         });
 
         setStatus(`${getVehicleIdsFromPage().length} Fahrzeuge auf der Seite gefunden.`);
