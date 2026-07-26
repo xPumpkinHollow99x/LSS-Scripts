@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Ausbauübersicht im Gebäude
 // @namespace    PumpkinHollow
-// @version      5.0
+// @version      5.1
 // @description  Ausbauten werden wie im LSSM v4 abgebildet
 // @match        https://www.leitstellenspiel.de/buildings/*
 // @match        https://polizei.leitstellenspiel.de/buildings/*
