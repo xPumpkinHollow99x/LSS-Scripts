@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Missions einklappen (⇅ Toggle)
 // @namespace    PumpkinHollow
-// @version      2.1
+// @version      2.2
 // @description  Missionsliste einklappen inkl. neuer Einsätze + UI Button im Filterbereich
 // @match        https://www.leitstellenspiel.de/*
 // @match        https://polizei.leitstellenspiel.de/*
@@ -37,36 +37,27 @@
 
     function getPatientCount(panel) {
 
-        let total = 0;
-
-        // 1. BEST CASE: Summary
+        // Große Einsätze
         const summary = panel.querySelector('[id^="mission_patient_summary_"]');
 
         if (summary) {
-            const match = summary.textContent.match(/(\d+)\s*Patienten/i);
-            if (match) total = parseInt(match[1], 10);
-        }
+            const match = summary.textContent.match(/(\d+)\s*Patienten?/i);
 
-        // 2. FALLBACK: echte Patienten zählen
-        if (!total) {
-            const container = panel.querySelector('[id^="mission_patients_"]');
-
-            if (container) {
-                const patients = container.querySelectorAll(':scope > div[id^="patient_"]');
-                total = patients.length;
+            if (match) {
+                return parseInt(match[1], 10);
             }
         }
 
-        // 3. LETZTER FALLBACK: Button Text
-        if (!total) {
-            const btn = panel.querySelector('#patient_button_text');
-            if (btn) {
-                const match = btn.textContent.match(/(\d+)/);
-                if (match) total = parseInt(match[1], 10);
-            }
+        // Kleine Einsätze
+        const container = panel.querySelector('[id^="mission_patients_"]');
+
+        if (container) {
+            return Array.from(container.children).filter(
+                el => /^patient_\d+$/.test(el.id)
+            ).length;
         }
 
-        return total;
+        return 0;
     }
 
     if (state) {
@@ -110,44 +101,47 @@
 }
 
     function applyAll(state) {
+
         document
-            .querySelectorAll('[id^="mission_panel_"]')
+            .querySelectorAll('[id^="mission_list"] [id^="mission_panel_"]')
             .forEach(panel => applyToMission(panel, state));
+
     }
 
     function observeNewMissions(state) {
 
-        const missionList =
-              document.querySelector('#mission_list') ||
-              document.querySelector('#mission_list_outer') ||
-              document.body;
+        const missionLists = document.querySelectorAll('[id^="mission_list"]');
 
-        const observer = new MutationObserver(mutations => {
+        missionLists.forEach(list => {
 
-            for (const mutation of mutations) {
+            const observer = new MutationObserver(mutations => {
 
-                for (const node of mutation.addedNodes) {
+                for (const mutation of mutations) {
 
-                    if (!(node instanceof HTMLElement)) continue;
+                    for (const node of mutation.addedNodes) {
 
-                    // Neuer Einsatz direkt eingefügt
-                    if (node.id?.startsWith('mission_panel_')) {
-                        applyToMission(node, state);
-                        continue;
+                        if (!(node instanceof HTMLElement)) continue;
+
+                        if (node.id?.startsWith('mission_panel_')) {
+                            applyToMission(node, getState());
+                            continue;
+                        }
+
+                        node.querySelectorAll?.('[id^="mission_panel_"]').forEach(panel => {
+                            applyToMission(panel, getState());
+                        });
+
                     }
 
-                    // Manchmal kommt der Einsatz in einem Wrapper
-                    const panel = node.querySelector?.('[id^="mission_panel_"]');
-
-                    if (panel) {
-                        applyToMission(panel, state);
-                    }
                 }
-            }
-        });
 
-        observer.observe(missionList, {
-            childList: true
+            });
+
+            observer.observe(list, {
+                childList: true,
+                subtree: true
+            });
+
         });
     }
 
@@ -217,6 +211,28 @@
         createButton();
     }
 
-    window.addEventListener('load', init);
+    let initialized = false;
+
+    function startWhenReady() {
+
+        if (initialized) return;
+
+        const missionPanel = document.querySelector('#missions-panel-main');
+        const missionList = document.querySelector('[id^="mission_list"]');
+
+        if (!missionPanel || !missionList) {
+            setTimeout(startWhenReady, 250);
+            return;
+        }
+
+        initialized = true;
+        init();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", startWhenReady);
+    } else {
+        startWhenReady();
+    }
 
 })();
