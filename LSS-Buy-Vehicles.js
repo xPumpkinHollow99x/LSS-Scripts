@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          LSS Buy Vehicles
 // @namespace    PumpkinHollow
-// @version       1.0
+// @version       1.1
 // @description   Fahrzeugkauf mit sicherem Einzelkauf, damit Ausbauten korrekt beachtet werden
 // @author        Silberfighter / angepasst
 // @include       https://polizei.leitstellenspiel.de/buildings/*
@@ -23,163 +23,149 @@
             buildingID: 0,
             displayName: "1. 10 Fz.",
             vehicles:[
-                [0,1], // LF 20
-                [87,1], // TLF 4000
-                [30,1], // HLF 20
-                [2,1], // DLK 23
-                [3,1], // ELW 1
-                [4,1], // RW
-                [5,1], // GW-A
-                [10,1], // GW-Öl
-                [14,1], // SW 2000
-                [36,1], // MTW
+                [30,3],// HLF 20
+                [2,1],// DLK 23
+                [3,1],// ELW 1
+                [5,1],// GW-A
+                [10,1],// GW-Öl
+                [14,1],// SW 2000
+                [36,1],// MTW
+                [87,1],// TLF 4000
             ]
         },
         {
             buildingID: 0,
             displayName: "Normale FW",
             vehicles:[
-                [0,2], // LF 20
-                [2,1], // DLK 23/12
-                [3,1], // ELW 1
-                [4,1], // RW
-                [5,1], // GW-A
-                [10,1], // GW-Öl
-                [12,1], // GW-Mess
-                [14,1], // SW 2000
-                [27,1], // GW-G
-                [30,2], // HLF 20
-                [33,1], // GW-Höhe
-                [34,1], // ELW 2
-                [36,1], // MTW
-                [53,1], // Dekon-P
-                [57,1], // FwK
-                [87,1], // TLF 4000
-                [114,1], // GW-Lüfter
-                [167,1], // SLF
-                [128,1], // ELW Drohne
-                [139,2], // GW-Küche
-                [163,1], // HLF-Schiene
-                [111,1] // NEA50
+                [30,5],// HLF 20
+                [2,1],// DLK 23
+                [3,1],// ELW 1
+                [5,1],// GW-A
+                [10,1],// GW-Öl
+                [14,1],// SW 2000
+                [36,1],// MTW
+                [87,1],// TLF 4000
+                [12,1],// GW-Messtechnik
+                [27,1],// GW-Gefahrgut
+                [33,1],// GW-Höhenrettung
+                [34,1],// ELW 2
+                [53,1],// Dekon-P
+                [57,1],// FwK
+                [167,1],// SLF
+                [114,1],// GW-Lüfter
+                [128,1],// ELW Drohne
+                [139,2],// GW-Küche
+                [163,1],// HLF-Schiene
+                [111,1],// NEA50
             ]
         },
         {
             buildingID: 0,
             displayName: "Normale FW ohne Ausbauten",
             vehicles:[
-                [0,2], // LF 20
-                [2,1], // DLK 23/12
-                [3,1], // ELW 1
-                [4,1], // RW
-                [5,1], // GW-A
-                [10,1], // GW-Öl
-                [12,1], // GW-Mess
-                [14,1], // SW 2000
-                [27,1], // GW-G
-                [30,2], // HLF 20
-                [33,1], // GW-Höhe
-                [34,1], // ELW 2
-                [36,1], // MTW
-                [53,1], // Dekon-P
-                [57,1], // FwK
-                [87,1], // TLF 4000
-                [114,1], // GW-Lüfter
-                [167,1], // SLF
+                [30,5],// HLF 20
+                [2,1],// DLK 23
+                [3,1],// ELW 1
+                [5,1],// GW-A
+                [10,1],// GW-Öl
+                [14,1],// SW 2000
+                [36,1],// MTW
+                [87,1],// TLF 4000
+                [12,1],// GW-Messtechnik
+                [27,1],// GW-Gefahrgut
+                [33,1],// GW-Höhenrettung
+                [34,1],// ELW 2
+                [53,1],// Dekon-P
+                [57,1],// FwK
+                [167,1],// SLF
+                [114,1],// GW-Lüfter
             ]
         },
         {
             buildingID: 0,
             displayName: "Große FW",
             vehicles:[
-                [0,4], // LF 20
-                [2,2], // DLK 23/12
-                [3,2], // ELW 1
-                [4,1], // RW
-                [5,1], // GW-A
-                [10,1], // GW-Öl
-                [12,1], // GW-Mess
-                [14,1], // SW 2000
-                [27,1], // GW-G
-                [30,4], // HLF 20
-                [33,1], // GW-Höhe
-                [34,1], // ELW 2
-                [36,2], // MTW
-                [53,1], // Dekon-P
-                [57,1], // FwK
-                [87,2], // TLF 4000
-                [105,1], // GW-L2
-                [114,1], // GW-Lüfter
-                [167,2], // SLF
-                [128,1], // ELW Drohne
-                [139,2], // GW-Küche
-                [163,1], // HLF-Schiene
-                [111,1], // NEA50
-                [113,1] // NEA200
+                [30,10],// HLF 20
+                [2,2],// DLK 23
+                [3,2],// ELW 1
+                [5,1],// GW-A
+                [10,1],// GW-Öl
+                [14,2],// SW 2000
+                [36,2],// MTW
+                [87,2],// TLF 4000
+                [12,1],// GW-Messtechnik
+                [27,1],// GW-Gefahrgut
+                [33,1],// GW-Höhenrettung
+                [34,1],// ELW 2
+                [53,1],// Dekon-P
+                [57,1],// FwK
+                [167,1],// SLF
+                [114,1],// GW-Lüfter
+                [128,1],// ELW Drohne
+                [139,2],// GW-Küche
+                [163,1],// HLF-Schiene
+                [111,1],// NEA50
+                [113,1],// NEA200
             ]
         },
         {
             buildingID: 0,
             displayName: "FHF",
             vehicles:[
-                [0,2], // LF 20
-                [2,1], // DLK 23/12
-                [3,1], // ELW 1
-                [4,1], // RW
-                [5,1], // GW-A
-                [10,1], // GW-Öl
-                [12,1], // GW-Mess
-                [14,1], // SW 2000
-                [27,1], // GW-G
-                [30,2], // HLF 20
-                [33,1], // GW-Höhe
-                [34,1], // ELW 2
-                [36,1], // MTW
-                [53,1], // Dekon-P
-                [57,1], // FwK
-                [87,1], // TLF 4000
-                [105,1], // GW-L2
-                [114,1], // GW-Lüfter
-                [128,1], // ELW Drohne
-                [139,2], // GW-Küche
-                [163,1], // HLF-Schiene
-                [111,1], // NEA50
-                [113,1], // NEA200
-                [75,8], // FLF
-                [76,2] // Rettungstreppe
+                [30,5],// HLF 20
+                [2,1],// DLK 23
+                [3,1],// ELW 1
+                [5,1],// GW-A
+                [10,1],// GW-Öl
+                [14,1],// SW 2000
+                [36,1],// MTW
+                [87,1],// TLF 4000
+                [12,1],// GW-Messtechnik
+                [27,1],// GW-Gefahrgut
+                [33,1],// GW-Höhenrettung
+                [34,1],// ELW 2
+                [53,1],// Dekon-P
+                [57,1],// FwK
+                [167,1],// SLF
+                [114,1],// GW-Lüfter
+                [128,1],// ELW Drohne
+                [139,2],// GW-Küche
+                [163,1],// HLF-Schiene
+                [111,1],// NEA50
+                [113,1],// NEA200
+                [75,8],// FLF
+                [76,2],// Rettungstreppe
             ]
         },
         {
             buildingID: 0,
             displayName: "WF",
             vehicles:[
-                [0,2], // LF 20
-                [2,1], // DLK 23/12
-                [3,2], // ELW 1
-                [4,1], // RW
-                [5,1], // GW-A
-                [10,1], // GW-Öl
-                [12,1], // GW-Mess
-                [14,1], // SW 2000
-                [27,1], // GW-G
-                [30,2], // HLF 20
-                [33,1], // GW-Höhe
-                [34,1], // ELW 2
-                [36,1], // MTW
-                [53,1], // Dekon-P
-                [57,1], // FwK
-                [87,1], // TLF 4000
-                [105,1], // GW-L2
-                [114,1], // GW-Lüfter
-                [167,1], // SLF
-                [128,1], // ELW Drohne
-                [139,2], // GW-Küche
-                [163,1], // HLF-Schiene
-                [111,1], // NEA50
-                [113,1], // NEA200
-                [83,2], // GW-Werkfeuerwehr
-                [84,2], // ULF mit Löscharm
-                [85,2], // TM 50
-                [86,2] // Turbolöscher
+                [30,5],// HLF 20
+                [2,1],// DLK 23
+                [3,1],// ELW 1
+                [5,1],// GW-A
+                [10,1],// GW-Öl
+                [14,1],// SW 2000
+                [36,1],// MTW
+                [87,1],// TLF 4000
+                [12,1],// GW-Messtechnik
+                [27,1],// GW-Gefahrgut
+                [33,1],// GW-Höhenrettung
+                [34,1],// ELW 2
+                [53,1],// Dekon-P
+                [57,1],// FwK
+                [167,1],// SLF
+                [114,1],// GW-Lüfter
+                [128,1],// ELW Drohne
+                [139,2],// GW-Küche
+                [163,1],// HLF-Schiene
+                [111,1],// NEA50
+                [113,1],// NEA200
+                [83,2],// GW-Werkfeuerwehr
+                [84,2],// ULF mit Löscharm
+                [85,2],// TM 50
+                [86,2],// Turbolöscher
             ]
         },
         {
