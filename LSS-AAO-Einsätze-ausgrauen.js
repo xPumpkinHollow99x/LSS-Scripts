@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS AAO Einsätze ausgrauen
 // @namespace    PumpkinHollow
-// @version      1.7
+// @version      1.8
 // @description  Sauberes Matching mit optionaler Klammerlogik
 // @match        https://www.leitstellenspiel.de/missions/*
 // @match        https://polizei.leitstellenspiel.de/missions/*
@@ -23,17 +23,30 @@
             .trim();
     }
 
-    function extractMission(text) {
-        text = text.toLowerCase();
+    function extractMission() {
+        const missionH1 = document.querySelector('#missionH1');
+        if (!missionH1) return { base: '', bracket: null };
 
-        // ID entfernen (491/a, 612/AB etc.)
-        text = text.replace(/^\d+\/?[a-z]+?\s*/i, '');
+        // Nur direkte Textknoten des H3 sammeln
+        let text = '';
 
-        // Klammer extrahieren
+        for (const node of missionH1.childNodes) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const t = node.textContent.trim();
+                if (t) {
+                    text += ' ' + t;
+                }
+            }
+        }
+
+        text = text.trim().toLowerCase();
+
+        // ID entfernen
+        text = text.replace(/^\d+\/?[a-z]*\s*/i, '');
+
         const bracketMatch = text.match(/\((.*?)\)/);
         const bracket = bracketMatch ? normalize(bracketMatch[1]) : null;
 
-        // Klammer entfernen für Basis
         const base = normalize(text.replace(/\(.*?\)/g, ''));
 
         return { base, bracket };
@@ -54,7 +67,7 @@
         const missionH1 = document.querySelector('#missionH1');
         if (!missionH1) return;
 
-        const mission = extractMission(missionH1.textContent);
+        const mission = extractMission();
 
         const aaoButtons = document.querySelectorAll('.aao_btn');
 
