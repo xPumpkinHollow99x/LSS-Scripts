@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Buy Extension
 // @namespace    PumpkinHollow
-// @version      1.0
+// @version      1.1
 // @description  Baut Erweiterungen, zeigt Gesamtkosten und lädt die Seite nach Abschluss neu.
 // @include      https://www.leitstellenspiel.de/buildings/*
 // @include      https://polizei.leitstellenspiel.de/buildings/*
@@ -22,9 +22,9 @@
     };
 
     const extensionsConfigurations = [
-        { buildingID: 0, displayName: "FW Standard", ausbauten:[0,16,18,19,25,20,14], spezialisierung:[], lager:[] },
-        { buildingID: 0, displayName: "FW WF", ausbauten:[0,16,18,19,25,20,14,13,9,15], spezialisierung:[], lager:[] },
-        { buildingID: 0, displayName: "FW FHF", ausbauten:[0,16,18,19,25,20,14,8,9,15], spezialisierung:[], lager:[] },
+        { buildingID: 0, displayName: "FW Standard", ausbauten:[16,18,19,25,20,14,0], spezialisierung:[], lager:[] },//16=Lüfter, 18=Drohneneinheit, 19=Verpflegungsdienst, 25=Bahnrettung, 20=Anhängerstellplatz, 14=NEA50, 0=Rettungsdienst
+        { buildingID: 0, displayName: "FW WF", ausbauten:[0,16,18,19,25,20,14,13,9,15], spezialisierung:[], lager:[] },//16=Lüfter, 18=Drohneneinheit, 19=Verpflegungsdienst, 25=Bahnrettung, 20=Anhängerstellplatz, 14=NEA50, 0=Rettungsdienst, 13=Werkfeuerwehr, 9=Großwache, 15=NEA200
+        { buildingID: 0, displayName: "FW FHF", ausbauten:[0,16,18,19,25,20,14,8,9,15], spezialisierung:[], lager:[] },//16=Lüfter, 18=Drohneneinheit, 19=Verpflegungsdienst, 25=Bahnrettung, 20=Anhängerstellplatz, 14=NEA50, 0=Rettungsdienst, 8=Flughafenfeuerwehr, 9=Großwache, 15=NEA200
         { buildingID: 0, displayName: "GW + NEA200", ausbauten:[9,15], spezialisierung:[], lager:[] },
         { buildingID: 9, displayName: "THW", ausbauten:[11,0,1,2,3,4,5,6,7,8,9,10,12,13,14,15], spezialisierung:[], lager:[] },
         { buildingID: 12, displayName: "SEG", ausbauten:[0,1,2,3,4,5,6], spezialisierung:[], lager:[] },
