@@ -1,12 +1,10 @@
 // ==UserScript==
 // @name         LSS AAO Generator
 // @namespace    PumpkinHollow
-// @version      2.0
+// @version      2.1
 // @description  Fügt einen Button ein, um einen neuen AAO Eintrag zu erzeugen
 // @match        https://www.leitstellenspiel.de/einsaetze/*
 // @match        https://www.leitstellenspiel.de/aaos/new
-// @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-AAO-Generator.js
-// @downloadURL  https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-AAO-Generator.js
 // @icon         https://github.com/xPumpkinHollow99x/Bilder/raw/main/pumpkinhollow.png
 // @grant        GM_openInTab
 // ==/UserScript==
@@ -114,6 +112,7 @@
             //"Benötigte ELW 1": "aao[elw1_or_elw2]", // ELW 1, ELW 2 oder AB-Einsatzleitung
             "Benötigte ELW 1": "aao[elw1_or_elw_drone]", // ELW 1 oder ELW Drohne
             //"Benötigte ELW 2": "aao[elw2]", // ELW 2
+            //"Benötigte ELW 2": "aao[ab_einsatzleitung_only]", // AB-Einsatzleitung
             //"Benötigte ELW 2": "aao[elw2_or_ab_elw]", // ELW 2 oder AB-Einsatzleitung
             "Benötigte ELW 2": "aao[elw2_or_elw2_drone]", // ELW 2 oder ELW 2 Drohne
             "Benötigte Drehleitern": "aao[dlk]", // DLK 23
@@ -145,6 +144,8 @@
             //"Benötigte Dekon-P ": "aao[only_ab_dekon_p]", // AB-Dekon-P
             //"Benötigte Feuerwehrkräne (FwK)": "aao[fwk]", // FwK
             "Benötigte Feuerwehrkräne (FwK)": "vehicle_type_ids[[57, 182]]", // Kran von beliebiger Organisation
+            "Benötigte Flugfeldlöschfahrzeuge": "aao[arff]", //Flugfeldlöschfahrzeug
+            "Benötigte Rettungstreppen": "aao[rettungstreppe]", //Rettungstreppe
             "Benötigte Turbolöscher": "aao[turboloescher]", // Turbolöscher
             "Benötigte Teleskopmasten": "aao[tm50]", // TM 50
             "Benötigte ULF mit Löscharm": "aao[ulf]", // ULF mit Löscharm
@@ -163,15 +164,27 @@
             //Polizei
             "Benötigte Funkstreifenwagen": "aao[fustw]", // FuStW
             //"Benötigte Funkstreifenwagen": "aao[police_car_or_service_group_leader]", // FuStW oder FuStW (DGL)
+            "Benötigte leBefKw": "aao[lebefkw]", // (leBefKw)
+            "Benötigte FüKW (Polizei)": "aao[fukw]", // FüKW (Polizei)
+            "Benötigte GruKw": "aao[grukw]", // GruKw
+            "Benötigte GefKw": "aao[gefkw]", // GefKw
+            "Benötigte Wasserwerfer": "aao[wasserwerfer]", // WaWe 10
             "Benötigte Polizeihubschrauber": "vehicle_type_ids[[61, 156]]", // Beliebiger Polizeihubschrauber
             //"Benötigte Polizeihubschrauber": "aao[polizeihubschrauber]", // Polizeihubschrauber
             //"Benötigte Polizeihubschrauer": "vehicle_type_ids[156]", // Polizeihubschrauber mit verbauter Winde
+            //"Benötigte ": "aao[mek_zf]", // MEK - ZF
+            //"Benötigte ": "aao[mek_mtf]", // MEK - MTF
+            "Benötigte MEK": "vehicle_type_ids[[81, 82]]", // MEK - ZF oder MEK - MTF
+            "Benötigte DHuFüKW": "aao[k9]", // DHuFüKW
+            "Benötigte Polizeimotorräder": "aao[police_motorcycle]", // Polizeimotorrad
             "Benötigte Funkstreifenwagen oder Polizeimotorräder": "aao[fustw_or_police_motorcycle]", // FuStW oder Polizeimotorrad
+            "Benötigte Funkstreifenwagen oder Zivilstreifenwagen": "vehicle_type_ids[[32, 98]]", // FuStW oder Zivilstreifenwagen
+            "Benötigte Zivilstreifenwagen": "vehicle_type_ids[98]", // Zivilstreifenwagen
             "Benötigte Funkstreifenwagen (Dienstgruppenleitung)": "vehicle_type_ids[103]", // FuStW (DGL)
             //THW
             "Benötigte GKW": "aao[gkw]", // GKW
             "Benötigte MTW-TZ": "aao[thw_mtw]", // MTW-TZ
-            "Benötigte (MzGW FGr N)": "aao[thw_mzkw]", // MzGW (FGr N)
+            "Benötigte MzGW (FGr N)": "aao[thw_mzkw]", // MzGW (FGr N)
             //"LKW K 9": "aao[thw_lkw]", // LKW K 9
             "BRmG R": "aao[thw_brmg_r]", // BRmG R
             "Anhänger Drucklufterzeugung": "aao[thw_dle]", // Anh DLE
@@ -192,15 +205,6 @@
             //Seenotrettung
             //"Maximale Patientenanzahl": "aao[rtw]",
         };
-
-
-        const missionNameInput = document.querySelector("input[name='aao[caption]']");
-        if (missionNameInput) {
-            setNativeInputValue(missionNameInput, aaoValues.missionName);
-            //console.log(`[AAO Generator] Einsatzname gesetzt: ${aaoValues.missionName}`);
-        } else {
-            console.warn("[AAO Generator] Einsatzname-Input nicht gefunden");
-        }
 
         for (let key in aaoValues) {
             if (aaoValues.hasOwnProperty(key) && key !== "missionName") {
@@ -305,9 +309,44 @@
             ktwB = 36;
         }
 
-        // RTW Reduktion durch NEF (NEF ersetzt RTW teilweise)
-        if (nef > 0) {
+        // RTW Reduktion nur wenn NEF tatsächlich angefordert werden kann
+        if (nef > 0 && aaoValues["NEF Anforderungswahrscheinlichkeit"]) {
             rtw = Math.max(0, rtw - nef);
+        }
+
+        const missionNameInput = document.querySelector("input[name='aao[caption]']");
+
+        if (missionNameInput) {
+
+            let suffix = "";
+
+            const hasNEF = nef > 0 && aaoValues["NEF Anforderungswahrscheinlichkeit"];
+            const hasRTH = rth > 0 && aaoValues["RTH Anforderungswahrscheinlichkeit"];
+
+            if (rtw > 0 || hasNEF || hasRTH) {
+
+                suffix = ` [${rtw}`;
+
+                // NEF nur anzeigen wenn wirklich vorhanden
+                if (hasNEF) {
+                    suffix += `|${nef}`;
+                }
+
+                // RTH nur anzeigen wenn wirklich eingetragen wird
+                if (hasRTH) {
+                    suffix += "|RTH";
+                }
+
+                suffix += "]";
+            }
+
+            setNativeInputValue(
+                missionNameInput,
+                aaoValues.missionName + suffix
+            );
+
+        } else {
+            console.warn("[AAO Generator] Einsatzname-Input nicht gefunden");
         }
 
         // =======================
