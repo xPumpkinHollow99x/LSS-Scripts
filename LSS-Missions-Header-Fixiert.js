@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Missions Header Fixiert
 // @namespace    PumpkinHollow
-// @version      1.2
+// @version      1.3
 // @description  Sticky Missions Header mit zuverlässiger Darkmode-Erkennung (LSS Farb-Basis)
 // @match        https://www.leitstellenspiel.de/missions/*
 // @match        https://polizei.leitstellenspiel.de/missions/*
