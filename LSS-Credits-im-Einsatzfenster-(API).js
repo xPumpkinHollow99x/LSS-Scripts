@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Credits im Einsatzfenster (API)
 // @namespace    PumpkinHollow
-// @version      15.0
+// @version      15.1
 // @description  Zeigt durchschnittliche Einsatz-Credits im Einsatzfenster ueber /einsaetze.json an.
 // @match        *://*.leitstellenspiel.de/*
 // @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Credits-im-Einsatzfenster-(API).js
