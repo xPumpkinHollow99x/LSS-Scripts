@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Eigene Freigaben + Credits
 // @namespace    PumpkinHollow
-// @version      1.2.0
+// @version      1.3.1
 // @description  Zeigt Listenwert, eigene Freigaben, deren Credits-Summe und offene Verbands-Credits ueber der Missionsliste an.
 // @match        https://www.leitstellenspiel.de/
 // @match        https://polizei.leitstellenspiel.de/
@@ -129,6 +129,7 @@
         let countValue = document.getElementById(`${WRAPPER_ID}-count`);
         let creditsValue = document.getElementById(`${WRAPPER_ID}-credits`);
         let allianceCreditsValue = document.getElementById(`${WRAPPER_ID}-alliance-credits`);
+        let patientValue = document.getElementById(`${WRAPPER_ID}-patients`);
 
         if (!wrapper) {
             wrapper = document.createElement('div');
@@ -156,7 +157,7 @@
             countValue.id = `${WRAPPER_ID}-count`;
 
             const separator = document.createElement('span');
-            separator.textContent = ' | Credits-Summe: ';
+            separator.textContent = ' | Freigaben-Credits-Summe: ';
 
             creditsValue = document.createElement('span');
             creditsValue.id = `${WRAPPER_ID}-credits`;
@@ -167,6 +168,12 @@
             allianceCreditsValue = document.createElement('span');
             allianceCreditsValue.id = `${WRAPPER_ID}-alliance-credits`;
 
+            const thirdSeparator = document.createElement('span');
+            thirdSeparator.textContent = ' | Patienten: ';
+
+            patientValue = document.createElement('span');
+            patientValue.id = `${WRAPPER_ID}-patients`;
+
             wrapper.append(
                 ownListLabel,
                 ownListValue,
@@ -176,7 +183,9 @@
                 separator,
                 creditsValue,
                 secondSeparator,
-                allianceCreditsValue
+                allianceCreditsValue,
+                thirdSeparator,
+                patientValue
             );
         }
 
@@ -184,7 +193,14 @@
             anchor.before(wrapper);
         }
 
-        return { wrapper, ownListValue, countValue, creditsValue, allianceCreditsValue };
+        return {
+            wrapper,
+            ownListValue,
+            countValue,
+            creditsValue,
+            allianceCreditsValue,
+            patientValue
+        };
     }
 
     function getEntriesByListId(listId) {
@@ -283,6 +299,44 @@
         };
     }
 
+    function getTotalPatients() {
+        let total = 0;
+
+        document
+            .querySelectorAll("#mission_list .missionSideBarEntry")
+            .forEach(entry => {
+
+            const missionId = entry.getAttribute("mission_id");
+            if (!missionId) return;
+
+            const container = document.getElementById(
+                `mission_patients_${missionId}`
+            );
+            if (!container) return;
+
+            // Ab 7 Patienten: Zusammenfassung vorhanden
+            const summary = container.querySelector(
+                `[id="mission_patient_summary_${missionId}"] strong`
+            );
+
+            if (summary) {
+                const match = summary.textContent.match(/\d+/);
+
+                if (match) {
+                    total += parseInt(match[0], 10);
+                    return;
+                }
+            }
+
+            // Unter 7 Patienten: Nur echte Patienten-DIVs zählen
+            total += Array.from(container.children).filter(child =>
+                /^patient_\d+$/.test(child.id)
+            ).length;
+        });
+
+        return total;
+    }
+
     function summarize(index) {
         return {
             ownList: summarizeEntries(getEntriesByListId(LIST_ID), index),
@@ -297,6 +351,9 @@
 
         ui.countValue.textContent = formatter.format(summary.ownShared.count);
         ui.countValue.style.color = '#5cb85c';
+        ui.patientValue.textContent = formatter.format(getTotalPatients());
+        ui.patientValue.style.color = '#d9534f';
+        ui.patientValue.title = 'Aktuell offene Patienten in deiner Einsatzliste';
 
         if (state === 'loading') {
             ui.ownListValue.textContent = '...';
@@ -401,12 +458,9 @@
             observer.observe(missionList, {
                 childList: true,
                 subtree: true,
+                characterData: true,
                 attributes: true,
-                attributeFilter: [
-                    'class',
-                    'mission_type_id',
-                    'data-sortable-by'
-                ],
+                attributeOldValue: false
             });
 
             missionListObservers.set(listId, {
