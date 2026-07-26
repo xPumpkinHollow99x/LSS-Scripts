@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Change Vehicle max personal
 // @namespace    PumpkinHollow
-// @version      1.1
+// @version      1.2
 // @description  Ändert die Personenanzahl
 // @include      https://www.leitstellenspiel.de/buildings/*
 // @include      https://polizei.leitstellenspiel.de/buildings/*
@@ -17,7 +17,7 @@
     // --- Konfiguration: [VehicleTypeID, PersonenAnzahl]
     const vehicleConfig = new Map([
         [0, 1], [2, 1], [3, 1], [4, 1], [5, 1], [10, 1], [14, 1],
-        [30, 1], [36, 1], [87, 1], [32, 1], [50, 1], [52, 1], [39, 1], [41, 1], [124, 1],
+        [30, 1], [36, 1], [87, 1], [28, 1], [32, 1], [50, 1], [52, 1], [39, 1], [41, 1], [124, 1],
     ]);
 
     // Button einfügen
