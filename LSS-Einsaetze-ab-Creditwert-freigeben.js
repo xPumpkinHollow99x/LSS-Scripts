@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LSS Einsaetze ab Creditwert freigeben
 // @namespace    PumpkinHollow
-// @version      1.2
+// @version      1.3
 // @description  Gibt eigene Einsaetze ab einem Mindest-Creditwert mit einem Klick fuer den Verband frei.
 // @match        https://www.leitstellenspiel.de/*
 // @match        https://polizei.leitstellenspiel.de/*
@@ -22,7 +22,7 @@
     const SETTINGS_KEY = 'lssCreditShareToolSettingsV1';
     const CACHE_KEY = 'lssCreditShareToolMissionIndexV2';
     const CACHE_TTL_MS = 2 * 60 * 60 * 1000;
-    const DEFAULT_MIN_CREDITS = 7000;
+    const DEFAULT_MIN_CREDITS = 10000;
     const SHARE_DELAY_MS = 450;
     const OWN_LIST_IDS = ['mission_list'];
 
