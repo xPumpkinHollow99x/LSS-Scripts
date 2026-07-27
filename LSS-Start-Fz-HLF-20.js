@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         LSS Start Fz HLF 20
 // @namespace    PumpkinHollow
-// @version      4.0
+// @version      4.1
 // @description  Setzt HLF 20 exakt nach Auswahl der Feuerwache
-// @match        https://www.leitstellenspiel.de/buildings/new*
-// @match        https://polizei.leitstellenspiel.de/buildings/new*
+// @match        https://www.leitstellenspiel.de/*
+// @match        https://polizei.leitstellenspiel.de/*
 // @updateURL    https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Start-Fz-HLF-20.js
 // @downloadURL  https://raw.githubusercontent.com/xPumpkinHollow99x/LSS-Scripts/main/LSS-Start-Fz-HLF-20.js
 // @icon         https://github.com/xPumpkinHollow99x/Bilder/raw/main/pumpkinhollow.png
